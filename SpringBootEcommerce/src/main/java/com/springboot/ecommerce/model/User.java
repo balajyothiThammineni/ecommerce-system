@@ -1,18 +1,25 @@
 package com.springboot.ecommerce.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.springboot.ecommerce.enums.RoleType;
 
 @Entity
+@Table(name="user_details")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
 	private String password;
-	private String role;
+	@Enumerated(EnumType.STRING)
+	private RoleType role;
 	public int getId() {
 		return id;
 	}
@@ -32,17 +39,11 @@ public class User {
 		this.password = password;
 	}
 	
-	public String getRole() {
+	
+	public RoleType getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(RoleType role) {
 		this.role = role;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", role=" + role + "]";
-	}
-	
-	
-
 }
