@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.User;
 import com.springboot.ecommerce.service.UserService;
@@ -21,7 +20,6 @@ public class UserController {
 	
 	@Autowired 
 	private UserService userservice;  // Data Integration
-	private UserService userService;
 	
 	@PostMapping("/add")   
 	public User postUser(@RequestBody User user) {
@@ -42,7 +40,21 @@ public class UserController {
     public List<User> getAllUsers(){
 		return userservice.getAll();
 	}
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
+		
+		try {
+			//validate id
+			User user = userservice.getUserById(id);
+			//delete
+			userservice.deleteUser(user);
+			return ResponseEntity.ok().body(" deleted successfully");
+         } catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+
 	
-	
+	}	
 }
 
