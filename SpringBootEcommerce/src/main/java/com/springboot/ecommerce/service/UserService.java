@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.springboot.ecommerce.exception.InvalidIdException;
+import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.User;
 import com.springboot.ecommerce.repository.UserRepository;
 
@@ -43,6 +44,12 @@ public class UserService {
 	}
 	public void updateUser(User user) {
 		userRepository.save(user);
+	}
+
+
+	public Customer insert(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
