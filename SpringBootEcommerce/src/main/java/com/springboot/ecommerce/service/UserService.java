@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Customer;
@@ -12,7 +15,7 @@ import com.springboot.ecommerce.model.User;
 import com.springboot.ecommerce.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -47,11 +50,13 @@ public class UserService {
 	}
 
 
-	public Customer insert(User user) {
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+
 
 
 
