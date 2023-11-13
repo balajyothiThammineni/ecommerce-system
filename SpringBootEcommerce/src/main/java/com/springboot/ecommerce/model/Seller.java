@@ -18,13 +18,14 @@ public class Seller {
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
-	private String GSTIN;
+	private String gstin;
 	
 	 
 	@OneToOne
 	private User user;
 	@OneToOne
 	private Address address;
+	
 	public int getSellerId() {
 		return sellerId;
 	}
@@ -49,11 +50,13 @@ public class Seller {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getGSTIN() {
-		return GSTIN;
+    
+
+	public String getGstin() {
+		return gstin;
 	}
-	public void setGSTIN(String gSTIN) {
-		GSTIN = gSTIN;
+	public void setGstin(String gstin) {
+		this.gstin = gstin;
 	}
 	public User getUser() {
 		return user;

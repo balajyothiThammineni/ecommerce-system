@@ -29,6 +29,11 @@ public class AddressService {
 		return optional.get();
 	}
 
+	public Address postAddress(Address address) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 
