@@ -18,12 +18,9 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	public Customer insert(Customer customer) {
-
+	public Customer postCustomer(Customer customer) {
 		return customerRepository.save(customer);
-
 	}
-	 
 	public List<Customer> getAllCustomers() {
 		List<Customer> list = customerRepository.findAll();
 		return list;
@@ -40,6 +37,12 @@ public class CustomerService {
 		customerRepository.delete(customer);
 		
 	}
+	public Customer insert(Customer customer) {
+
+		return customerRepository.save(customer);
+
+	}
+	 
 	
 		
 	}

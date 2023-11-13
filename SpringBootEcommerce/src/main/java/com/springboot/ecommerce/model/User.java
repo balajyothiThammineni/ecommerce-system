@@ -80,4 +80,8 @@ public class User implements UserDetails {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public void setRoleType(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

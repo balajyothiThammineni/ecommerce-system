@@ -79,4 +79,9 @@ public class Customer {
 		this.address = address;
 	}
 
+	public Object getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

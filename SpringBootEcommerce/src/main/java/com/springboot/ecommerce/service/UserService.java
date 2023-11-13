@@ -57,6 +57,12 @@ public class UserService implements UserDetailsService {
 	}
 
 
+	public User insert(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 
 
