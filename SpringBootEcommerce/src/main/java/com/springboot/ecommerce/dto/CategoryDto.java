@@ -1,18 +1,7 @@
-package com.springboot.ecommerce.model;
+package com.springboot.ecommerce.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class Category {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	
+public class CategoryDto {
 	private int categoryId;
-	@Column(nullable = false)
 	private String categoryName;
 	public int getCategoryId() {
 		return categoryId;
@@ -26,5 +15,6 @@ public class Category {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+
 	
 }

@@ -33,8 +33,8 @@ public class CategoryController {
 	}
 	
 	
-	@DeleteMapping("/category/delete/{id}") /* 8080/customer/delete/13 */
-	public ResponseEntity<?> deleteCategory(@PathVariable("id") int id) {
+	@DeleteMapping("/category/delete/{cid}") /* 8080/customer/delete/13 */
+	public ResponseEntity<?> deleteCategory(@PathVariable("cid") int id) {
 
 		try {
 			// validate id

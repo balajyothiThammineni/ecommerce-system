@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.springboot.ecommerce.dto.SellerDto;
 import com.springboot.ecommerce.exception.InvalidIdException;
-import com.springboot.ecommerce.model.Address;
 import com.springboot.ecommerce.model.Seller;
 import com.springboot.ecommerce.model.User;
-import com.springboot.ecommerce.service.AddressService;
 import com.springboot.ecommerce.service.SellerService;
 import com.springboot.ecommerce.service.UserService;
 
@@ -32,33 +31,40 @@ public class SellerController {
 	
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private AddressService addressService;
 	
 	@PostMapping("/signup")
-	public Seller insertSeller(@RequestBody Seller seller ) { // method is mapped to the url
+	public Seller addSeller(@RequestBody Seller seller) {
+		 
 		User user = seller.getUser();
-		String passwordPlain = user.getPassword();
-
-		String encodedPassword = passwordEncoder.encode(passwordPlain);
+		String passwordPlain =user.getPassword();
+		String encodedPassword =passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
-		userService.postUser(user);
-		/* saving address with id */
-		Address address = seller.getAddress();
-		addressService.insert(address); // customer info as an object and give it to the repository via service
+		user.setRole("SELLER");
+		user=userService.insert(user);
+		seller.setUser(user);
 		return sellerService.insert(seller);
+		}	
+	
+	  @GetMapping("/login/{sid}")
+		public ResponseEntity<?> getExecutive(@PathVariable("sid") int id) {
 
-	}
+			try {
+				Seller seller = sellerService.getSellerById(id);
+				return ResponseEntity.ok().body(seller);
+			} catch (InvalidIdException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
 
-
-	@GetMapping("/all") 
+		}
+	
+	@GetMapping("/view/all") 
 	public List<Seller> getAllSeller() { 
 		List<Seller> list = sellerService.getAllSeller();
 		return list;
 	}
 	
-	@DeleteMapping("/delete/{id}")    
-	public ResponseEntity<?> deleteSeller(@PathVariable("id") int id) {
+	@DeleteMapping("/delete/{sid}")    
+	public ResponseEntity<?> deleteSeller(@PathVariable("sid") int id) {
 		
 		try {
 			//validate id
@@ -70,8 +76,37 @@ public class SellerController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
-	
+	@PutMapping("/update/{id}")  
+	public  ResponseEntity<?> updateSeller(@PathVariable("id") int id, @RequestBody SellerDto newSeller) {
+		try {
+			Seller oldSeller = sellerService.getOne(id);
+			if(newSeller.getSellerName() != null)
+				oldSeller.setSellerName(newSeller.getSellerName());
+			if(newSeller.getEmail() != null) 
+				oldSeller.setEmail(newSeller.getEmail()); 
+			if(newSeller.getNumber() != null)
+				oldSeller.setNumber(newSeller.getNumber());
+			if(newSeller.getGstin()!= null)
+				oldSeller.setGstin(newSeller.getGstin());
+			if(newSeller.getHno()!=null)
+				oldSeller.setGstin(newSeller.getGstin());
+			if(newSeller.getState()!=null)
+				oldSeller.setState(newSeller.getState());
+			
+		oldSeller = sellerService.postSeller(oldSeller); 
+			return ResponseEntity.ok().body(oldSeller);
+			
+		}catch(InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+	}
 }
+	
+
+
+	
+
 
 
 	

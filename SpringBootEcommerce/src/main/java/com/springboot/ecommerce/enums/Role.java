@@ -1,6 +1,6 @@
 package com.springboot.ecommerce.enums;
 
-public enum RoleType {
+public enum Role {
 	CUSTOMER,SELLER,EXECUTIVE
 
 }

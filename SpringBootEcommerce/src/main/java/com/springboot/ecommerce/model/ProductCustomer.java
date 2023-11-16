@@ -25,7 +25,6 @@ public class ProductCustomer {
 	private LocalDate dateOfPurchase;
 	private int quantity;
 	private double amount;
-	private String invoice;
 
 	public int getId() {
 		return id;
@@ -75,18 +74,5 @@ public class ProductCustomer {
 		this.amount = amount;
 	}
 
-	public String getInvoice() {
-		return invoice;
-	}
-
-	public void setInvoice(String invoice) {
-		this.invoice = invoice;
-	}
-
-	@Override
-	public String toString() {
-		return "ProductCustomer [id=" + id + ", product=" + product + ", customer=" + customer + ", dateOfPurchase="
-				+ dateOfPurchase + ", quantity=" + quantity + ", amount=" + amount + ", invoice=" + invoice + "]";
-	}
 
 }

@@ -1,6 +1,5 @@
 package com.springboot.ecommerce.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,14 +13,13 @@ public class Customer {
 	private int customerId;
 	private String customerName;
 	private String customerEmail;
-	@Column(nullable=false)
-	private String customerPassword;
 	private String customerNumber;
+	private String hno;
+	private String pincode;
+	private String state;
 
 	@OneToOne
 	private User user;
-	@OneToOne
-	private Address address;
 
 	public int getCustomerId() {
 		return customerId;
@@ -46,21 +44,36 @@ public class Customer {
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
 	}
-
-	public String getCustomerPassword() {
-		return customerPassword;
-	}
-
-	public void setCustomerPassword(String customerPassword) {
-		this.customerPassword = customerPassword;
-	}
-
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
 
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
+	}
+
+	public String getHno() {
+		return hno;
+	}
+
+	public void setHno(String hno) {
+		this.hno = hno;
+	}
+
+	public String getPincode() {
+		return pincode;
+	}
+
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public User getUser() {
@@ -70,18 +83,6 @@ public class Customer {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public Object getId() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }

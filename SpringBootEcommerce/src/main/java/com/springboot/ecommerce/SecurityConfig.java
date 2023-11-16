@@ -5,15 +5,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import com.springboot.ecommerce.service.UserService;
-
-
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -33,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   
 	 http
 		.authorizeRequests()
-		.antMatchers("/customer/add","/customer/all","/customer/one/{id}","/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/all","/seller/delete/{id}","/category/add","/category/getall","/category/delete/{id}","/user/add","/user/one/{id}","/user/getall","/user/delete/{id}").permitAll()
+		.antMatchers("/user/getall","/customer/signup","/executive/signup","/executive/login/{id}","/seller/update/{id}","/customer/all","/customer/login/{id}","/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/view/all","/seller/delete/{id}","/category/add","/category/getall","/category/delete/{id}").permitAll()
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and()

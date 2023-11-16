@@ -16,7 +16,6 @@ public class Product {
 	private String productName;
 	@Column(length =2000)
 	private String productDescription;
-	private int quantity;
 	private String colour;
 	private String size;
 	private long price;
@@ -26,6 +25,7 @@ public class Product {
 	 private Seller seller;
 	 @ManyToOne
 	 private Category category;
+	 
 	public int getProductId() {
 		return ProductId;
 	}
@@ -43,12 +43,6 @@ public class Product {
 	}
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 	public String getColour() {
 		return colour;

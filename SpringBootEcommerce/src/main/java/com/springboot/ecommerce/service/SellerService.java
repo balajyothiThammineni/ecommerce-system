@@ -18,15 +18,24 @@ public class SellerService {
 	@Autowired
 	private SellerRepository sellerRepository;
 	
-	public Seller postSeller(Seller seller) {
-		return sellerRepository.save(seller);
-	}
-
+	
+	public Seller insert(Seller seller) {
+	      return sellerRepository.save(seller);
+		}
+	
 	public List<Seller> getAllSeller() {
 		List<Seller> list = sellerRepository.findAll();
 		return list;
 		 
 	}
+
+	
+	public Seller postSeller(Seller seller) {
+		return sellerRepository.save(seller);
+	}
+	
+	
+	
 	public Seller getSellerById(int id) throws InvalidIdException{
 		java.util.Optional<Seller> optional = sellerRepository.findById(id);
 		if(!optional.isPresent())
@@ -40,10 +49,7 @@ public class SellerService {
 		
 	}
 
-	public Seller insert(Seller seller) {
-
-		return sellerRepository.save(seller);
-	}
+	
 
 	public Seller getOne(int id) throws InvalidIdException {
 		Optional<Seller> optional =  sellerRepository.findById(id);
@@ -53,5 +59,6 @@ public class SellerService {
 		return optional.get();
 	}
 
-  
+
+
 }
