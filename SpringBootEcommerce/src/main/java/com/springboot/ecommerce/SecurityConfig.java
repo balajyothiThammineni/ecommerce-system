@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   
 	 http
 		.authorizeRequests()
-		.antMatchers("/user/getall","/customer/signup","/executive/signup","/executive/login/{id}","/seller/update/{id}","/customer/all","/customer/login/{id}","/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/view/all","/seller/delete/{id}","/category/add","/category/getall","/category/delete/{id}").permitAll()
+		.antMatchers("/user/getall","/customer/signup","/executive/signup","/executive/login/{id}","/seller/update/{id}","/mcategory/delete/{cid}","/customer/all","/customer/login/{id}","/mcategory/all","/mcategory/add/{eid}","/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/view/all","/seller/delete/{id}","/category/add","/category/getall","/category/delete/{id}").permitAll()
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and()

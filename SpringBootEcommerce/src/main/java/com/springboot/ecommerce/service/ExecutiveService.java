@@ -27,4 +27,11 @@ public class ExecutiveService {
 
 	}
 
+		public Executive getById(int eid) throws InvalidIdException{
+			Optional<Executive> optional = executiveRepository.findById(eid);
+			if(!optional.isPresent())
+				throw new InvalidIdException("Executive Id not valid");
+			return optional.get();
+		}
+
 }

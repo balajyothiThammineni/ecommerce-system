@@ -59,6 +59,13 @@ public class SellerService {
 		return optional.get();
 	}
 
+	public Seller getById(int sid) throws InvalidIdException{
+		Optional<Seller>optional = sellerRepository.findById(sid);
+		if(!optional.isPresent())
+			throw new InvalidIdException("sid Invalid");
+		return optional.get();
+	}
+
 
 
 }
