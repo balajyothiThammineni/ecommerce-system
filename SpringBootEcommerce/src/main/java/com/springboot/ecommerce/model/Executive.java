@@ -48,6 +48,12 @@ public class Executive {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	@Override
+	public String toString() {
+		return "Executive [executiveId=" + executiveId + ", executiveName=" + executiveName + ", executiveEmail="
+				+ executiveEmail + ", user=" + user + "]";
+	}
 	
 	
 }

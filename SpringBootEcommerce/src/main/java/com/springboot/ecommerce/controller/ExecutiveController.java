@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.springboot.ecommerce.enums.Role;
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Executive;
 import com.springboot.ecommerce.model.User;
@@ -33,7 +35,7 @@ public class ExecutiveController {
 		String passwordPlain =user.getPassword();
 		String encodedPassword =passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
-		user.setRole("EXECUTIVE");
+		user.setRole(Role.EXECUTIVE);
 		user=userService.insert(user);
 		executive.setUser(user);
 		return executiveService.insert(executive);
