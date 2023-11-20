@@ -14,6 +14,7 @@ public class Category {
 	private int categoryId;
 	@Column(nullable = false)
 	private String categoryName;
+	
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -26,5 +27,14 @@ public class Category {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+	public Object getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public String toString() {
+		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + "]";
+	}
+	
 	
 }

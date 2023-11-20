@@ -28,7 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   
 	 http
 		.authorizeRequests()
-		.antMatchers("/user/getall","/customer/signup","/executive/signup","/executive/login/{id}","/seller/update/{id}","/mcategory/delete/{cid}","/customer/all","/customer/login/{id}","/mcategory/all","/mcategory/add/{eid}","/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/view/all","/seller/delete/{id}","/category/add","/category/getall","/category/delete/{id}").permitAll()
+		.antMatchers("/user/getall","/customer/signup","/executive/signup","/executive/login/{id}","/product/add/{sid}/{cid}",
+				"category/getone/{id}","/category/delete/{cid}","/category/update/{id}","product/all/{sid}","/product/category/{cid}",
+				     "/seller/update/{id}","/customer/update/{id}","/product/getall","/product/category/{cid}","/review/{cid}/{pid}",
+				     "/customer/all","/customer/login/{id}","/product/seller/{sid}","/product/getall/{page}/{size}","/review/getone/{pid}",
+				     "/customer/delete/{id}","/customer/update/{id}","/seller/signup","/seller/view/all","/seller/delete/{id}",
+				     "/review/delete/{id}","/review/getall/{page}/{size}","/product/getall","/review/getall","/order/{cid}/{pid}","/order/delete/{id}",
+				     "/category/add","/category/getall","/category/delete/{id}","/orders/{cid}","/orders/{pid}","/order/getall").permitAll()
 		.anyRequest().authenticated()
 		.and().httpBasic()
 		.and()

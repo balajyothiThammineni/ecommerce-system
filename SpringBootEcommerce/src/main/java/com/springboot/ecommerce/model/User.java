@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.springboot.ecommerce.enums.Role;
+
 @Entity
 @Table(name = "user_details")
 public class User implements UserDetails {
@@ -24,7 +26,7 @@ public class User implements UserDetails {
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
-	private String role;
+	private Role role;
 
 	public int getId() {
 		return id;
@@ -50,12 +52,17 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public String getRole() {
+	
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

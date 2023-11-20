@@ -1,6 +1,8 @@
 package com.springboot.ecommerce.model;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,12 +20,13 @@ public class Seller {
 	private String number;
 	@Column(nullable=false)
 	private String gstin;
-	private String hno;
-	private String pincode;
-    private String state;
+	
     
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private User user;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Address address;
+	
 
 	public int getSellerId() {
 		return sellerId;
@@ -48,7 +51,6 @@ public class Seller {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public String getNumber() {
 		return number;
@@ -66,28 +68,12 @@ public class Seller {
 		this.gstin = gstin;
 	}
 
-	public String getHno() {
-		return hno;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setHno(String hno) {
-		this.hno = hno;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public User getUser() {
@@ -97,7 +83,8 @@ public class Seller {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
+
 	
 	
 	

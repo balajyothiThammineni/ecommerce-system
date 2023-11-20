@@ -14,12 +14,11 @@ public class Customer {
 	private String customerName;
 	private String customerEmail;
 	private String customerNumber;
-	private String hno;
-	private String pincode;
-	private String state;
-
+    
 	@OneToOne
 	private User user;
+	@OneToOne
+	private Address address;
 
 	public int getCustomerId() {
 		return customerId;
@@ -44,36 +43,13 @@ public class Customer {
 	public void setCustomerEmail(String customerEmail) {
 		this.customerEmail = customerEmail;
 	}
+
 	public String getCustomerNumber() {
 		return customerNumber;
 	}
 
 	public void setCustomerNumber(String customerNumber) {
 		this.customerNumber = customerNumber;
-	}
-
-	public String getHno() {
-		return hno;
-	}
-
-	public void setHno(String hno) {
-		this.hno = hno;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
 	}
 
 	public User getUser() {
@@ -83,6 +59,14 @@ public class Customer {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	
 }

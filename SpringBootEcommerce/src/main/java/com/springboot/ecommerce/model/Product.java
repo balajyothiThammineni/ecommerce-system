@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int ProductId;
+	private int productId;
 	@Column(nullable=false)
 	private String productName;
 	@Column(length =2000)
@@ -26,11 +26,12 @@ public class Product {
 	 @ManyToOne
 	 private Category category;
 	 
+	
 	public int getProductId() {
-		return ProductId;
+		return productId;
 	}
 	public void setProductId(int productId) {
-		ProductId = productId;
+		this.productId = productId;
 	}
 	public String getProductName() {
 		return productName;
@@ -79,6 +80,12 @@ public class Product {
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	@Override
+	public String toString() {
+		return "Product [productId=" + productId + ", productName=" + productName + ", productDescription="
+				+ productDescription + ", colour=" + colour + ", size=" + size + ", price=" + price + ", stock=" + stock
+				+ ", seller=" + seller + ", category=" + category + "]";
 	}
 	 
 	

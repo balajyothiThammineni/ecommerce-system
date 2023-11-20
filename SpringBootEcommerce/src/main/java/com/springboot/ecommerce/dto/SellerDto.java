@@ -16,8 +16,7 @@ public class SellerDto {
 	private String pincode;
     private String state;
     
-    @OneToOne
-	private User user;
+   
     
 	public int getSellerId() {
 		return sellerId;
@@ -69,13 +68,6 @@ public class SellerDto {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-    
     
 
 }

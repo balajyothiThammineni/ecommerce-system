@@ -2,19 +2,15 @@ package com.springboot.ecommerce.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Seller;
 import com.springboot.ecommerce.repository.SellerRepository;
 
-
-
-
 @Service
 public class SellerService {
+	
 	@Autowired
 	private SellerRepository sellerRepository;
 	
