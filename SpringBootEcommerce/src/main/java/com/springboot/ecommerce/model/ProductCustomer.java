@@ -1,6 +1,8 @@
 package com.springboot.ecommerce.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "Product_customer")
@@ -22,8 +26,10 @@ public class ProductCustomer {
 	private Customer customer;
 
 	@Column(name = "date_of_purchase")
-	private LocalDate dateOfPurchase;
+	@CreationTimestamp
+	private LocalDateTime dateOfPurchase;
 	private int quantity;
+	private String orderStatus="ordered";
 	private double amount;
 
 	public int getId() {
@@ -50,12 +56,20 @@ public class ProductCustomer {
 		this.customer = customer;
 	}
 
-	public LocalDate getDateOfPurchase() {
+	public LocalDateTime getDateOfPurchase() {
 		return dateOfPurchase;
 	}
 
-	public void setDateOfPurchase(LocalDate dateOfPurchase) {
+	public void setDateOfPurchase(LocalDateTime dateOfPurchase) {
 		this.dateOfPurchase = dateOfPurchase;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
 	public int getQuantity() {
@@ -72,6 +86,11 @@ public class ProductCustomer {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public static List<ProductCustomer> getOrders(int pid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
