@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +20,14 @@ import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.Product;
 import com.springboot.ecommerce.model.Review;
+import com.springboot.ecommerce.model.Seller;
 import com.springboot.ecommerce.service.CustomerService;
 import com.springboot.ecommerce.service.ProductService;
 import com.springboot.ecommerce.service.ReviewService;
 
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class ReviewController {
 	
 	@Autowired
@@ -50,30 +53,27 @@ public class ReviewController {
 		return ResponseEntity.ok().body(review);
 	}
 	
-	@GetMapping("/review/getone/{pid}")
-	public ResponseEntity<?> getReview(@PathVariable("pid") int pid) {
-		try {
-			Review review = reviewService.getById(pid);
-			return ResponseEntity.ok().body(review);
-		} catch (InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	}
 	
-	@DeleteMapping("/review/delete/{id}")
-	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) {
-
+	@GetMapping("/review/product/{pid}")
+	public ResponseEntity<?> getReviewsByProduct(@PathVariable ("pid") int pid){
 		try {
-
-			Review review = reviewService.getById(id);
-
-			reviewService.deleteReview(review);
-			return ResponseEntity.ok().body("review deleted successfully");
-
+			Product product= productService.getOne(pid);
+			List<Review> list=reviewService.getByProductId(pid);
+			return ResponseEntity.ok().body(list);
+			
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+		
+//	@DeleteMapping("/review/delete/{id}")
+//	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) throws InvalidIdException {
+//
+//		Review review = reviewService.getById(id);
+//
+//		reviewService.deleteReview(review);
+//		return ResponseEntity.ok().body("review deleted successfully");
+//	}
 	
 	@GetMapping("/review/getall/{page}/{size}")
 	public Page<Review> getAllProducts(

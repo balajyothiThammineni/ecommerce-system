@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.springboot.ecommerce.service.CustomerService;
 import com.springboot.ecommerce.service.UserService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class CustomerController {
 
 	@Autowired
@@ -45,10 +47,10 @@ public class CustomerController {
 		String encodedPassword = passwordEncoder.encode(passwordPlain);
 		user.setPassword(encodedPassword);
 		user.setRole(Role.CUSTOMER);
-		user = userService.insert(user);
-		customer.setUser(user);
         Address address = addressService.postAddress(customer.getAddress());
 		customer.setAddress(address);
+		user = userService.insert(user);
+		customer.setUser(user);
 		return customerService.insert(customer);
 	}
 	
@@ -61,8 +63,8 @@ public class CustomerController {
 		return list;
 	}
 
-	@GetMapping("/customer/login/{id}")
-	public ResponseEntity<?> getEmployeeById(@PathVariable("id") int id) {
+	@GetMapping("/customer/getone/{id}")
+	public ResponseEntity<?> getCustomerById(@PathVariable("id") int id) {
 		try {
 			Customer customer = customerService.getCustomerById(id);
 			return ResponseEntity.ok().body(customer);
@@ -99,6 +101,16 @@ public class CustomerController {
 		oldCustomer = customerService.insert(oldCustomer);
 		return ResponseEntity.ok().body(oldCustomer);
 	}
-	
-	
+
+
+
+//	@GetMapping("/customer/products/{sid}")
+//	public ResponseEntity<?> getCustomerBySeller(@PathVariable ("sid") int sid){
+//		List<Customer> customers = customerService.getCustomerBySeller(sid);
+//		return ResponseEntity.ok().body(customers);
+//	}
+
+ 
+
 }
+

@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 public class Seller {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	
+	                      
 	private  int sellerId;
 	private String sellerName;
 	private String email;
@@ -22,9 +22,9 @@ public class Seller {
 	private String gstin;
 	
     
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne
 	private User user;
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne
 	private Address address;
 	
 

@@ -1,14 +1,11 @@
 package com.springboot.ecommerce.controller;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecommerce.dto.OrderDto;
-import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.Product;
 import com.springboot.ecommerce.model.ProductCustomer;
@@ -26,6 +22,7 @@ import com.springboot.ecommerce.service.ProductCustomerService;
 import com.springboot.ecommerce.service.ProductService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class ProductCustomerController<Order> {
 	
 	@Autowired
@@ -56,6 +53,9 @@ public class ProductCustomerController<Order> {
 				
 	            return ResponseEntity.ok().body(productCustomerService.insert(productCustomer));
 	}
+	
+	
+	
      @DeleteMapping("/order/delete/{id}")
 	public ResponseEntity<?> deleteorder(@PathVariable("id") int id) {
 		try {

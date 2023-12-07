@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Category;
@@ -19,11 +20,6 @@ public class CategoryService {
 		return categoryRepository.save(category);
 	}
 	
-       public List<Category> getAll() {
-		
-		return categoryRepository.findAll();	
-		}
-
 
 	public Category getByid(int cid) throws InvalidIdException {
 		Optional<Category> optional=categoryRepository.findById(cid);
@@ -62,4 +58,10 @@ public class CategoryService {
 		
 	}
 
-}
+
+	public List<Category> getAll() {
+	
+		return categoryRepository.findAll();
+	}
+
+} 

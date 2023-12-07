@@ -11,20 +11,25 @@ import com.springboot.ecommerce.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService{
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Autowired
 	private UserRepository userRepository;
-	
-    public User insert(User user) {
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return userRepository.findByUsername(username);
+		
+	}
+
+	public User insert(User user) {
+		// TODO Auto-generated method stub
 		return userRepository.save(user);
 	}
 	
+
 	
+
+	
+   
 
 }

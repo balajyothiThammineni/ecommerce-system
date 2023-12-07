@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.springboot.ecommerce.model.ProductCustomer;
 @Repository
 public interface ProductCustomerRepository extends JpaRepository<ProductCustomer,Integer>{
-   @Query(value= "select date_of_purchase,quantity,order_status,amount from product_Customer where customer_customer_id=:cid",nativeQuery = true)
+	
+	
+   @Query("SELECT pc.dateOfPurchase, pc.quantity, pc.orderStatus, pc.amount FROM ProductCustomer pc WHERE pc.customer.customerId = :cid")
    List<ProductCustomer> getMyOrders(int cid);
      
 }
+

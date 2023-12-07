@@ -3,6 +3,7 @@ package com.springboot.ecommerce.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.springboot.ecommerce.service.ExecutiveService;
 import com.springboot.ecommerce.service.UserService;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class ExecutiveController {
 	
 	@Autowired
@@ -43,17 +45,17 @@ public class ExecutiveController {
 	
 	
 	
-    @GetMapping("/executive/login/{id}")
-	public ResponseEntity<?> getExecutive(@PathVariable("id") int id) {
-
-		try {
-			Executive executive = executiveService.getExecutive(id);
-			return ResponseEntity.ok().body(executive);
-		} catch (InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-
-	}
+//    @GetMapping("/executive/login/{id}")
+//	public ResponseEntity<?> getExecutive(@PathVariable("id") int id) {
+//
+//		try {
+//			Executive executive = executiveService.getExecutive(id);
+//			return ResponseEntity.ok().body(executive);
+//		} catch (InvalidIdException e) {
+//			return ResponseEntity.badRequest().body(e.getMessage());
+//		}
+//
+//	}
     
 	
 	

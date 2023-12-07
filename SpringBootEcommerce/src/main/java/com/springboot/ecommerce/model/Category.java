@@ -15,6 +15,8 @@ public class Category {
 	@Column(nullable = false)
 	private String categoryName;
 	
+	private int priority;
+	
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -26,11 +28,15 @@ public class Category {
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+		
 	}
-	public Object getId() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getPriority() {
+		return priority;
 	}
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
+	
 	@Override
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + "]";

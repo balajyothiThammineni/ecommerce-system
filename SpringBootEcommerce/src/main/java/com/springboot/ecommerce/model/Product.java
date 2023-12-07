@@ -13,13 +13,15 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int productId;
 	@Column(nullable=false)
-	private String productName;
+	private String name;
 	@Column(length =2000)
 	private String productDescription;
 	private String colour;
 	private String size;
 	private long price;
 	private int stock;
+	
+	private boolean featured;
 	
 	 @ManyToOne
 	 private Seller seller;
@@ -33,12 +35,14 @@ public class Product {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	public String getProductName() {
-		return productName;
+	
+	public String getName() {
+		return name;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setName(String name) {
+		this.name = name;
 	}
+
 	public String getProductDescription() {
 		return productDescription;
 	}
@@ -81,12 +85,15 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	@Override
-	public String toString() {
-		return "Product [productId=" + productId + ", productName=" + productName + ", productDescription="
-				+ productDescription + ", colour=" + colour + ", size=" + size + ", price=" + price + ", stock=" + stock
-				+ ", seller=" + seller + ", category=" + category + "]";
+	
+	
+	public boolean isFeatured() {
+		return featured;
 	}
+	public void setFeatured(boolean featured) {
+		this.featured = featured;
+	}
+	
 	 
 	
 

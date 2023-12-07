@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,24 +17,22 @@ import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Category;
 import com.springboot.ecommerce.service.CategoryService;
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000"})
 public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
 	
 	
-	@PostMapping("category/add") // adding a category
+	@PostMapping("/category/add") // adding a category
 	public Category postCategory(@RequestBody Category category) { // method is mapped to a URL
         category  = categoryService.postCategory(category);
 		return category;
 	}
 	
-	@GetMapping("/category/getall")
-    public List<Category> getAllCategory(){
-		return categoryService.getAll();
-	}
+	
      
-	@GetMapping("category/getone/{id}")
+	@GetMapping("/category/getone/{id}")
 	public ResponseEntity<?> getCategory(@PathVariable("id") int id) {
 		try {
 			Category category = categoryService.getCategory(id);
@@ -74,7 +73,10 @@ public class CategoryController {
 	}
 
 
-	
+	@GetMapping("/category/getall")
+    public List<Category> getAllCategory(){
+		return categoryService.getAll();
+	}
 	
 	}
 	

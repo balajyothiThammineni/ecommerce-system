@@ -1,8 +1,6 @@
 package com.springboot.ecommerce.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,14 +18,18 @@ public class ProductCustomer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	
 	@ManyToOne
 	private Product product;
 	@ManyToOne
 	private Customer customer;
 
 	@Column(name = "date_of_purchase")
+	
 	@CreationTimestamp
 	private LocalDateTime dateOfPurchase;
+	
 	private int quantity;
 	private String orderStatus="ordered";
 	private double amount;
@@ -87,11 +89,11 @@ public class ProductCustomer {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
-	public static List<ProductCustomer> getOrders(int pid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//
+//	public static List<ProductCustomer> getOrders(int pid) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 }

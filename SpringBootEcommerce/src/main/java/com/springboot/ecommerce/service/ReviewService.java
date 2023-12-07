@@ -24,13 +24,13 @@ public class ReviewService {
 		
 	}
 
-	public Review getById(int pid) throws InvalidIdException {
-		Optional<Review> optional = reviewRepository.findById(pid);
-		if (!optional.isPresent()) {
-			throw new InvalidIdException("Product ID invalid");
-		}
-		return optional.get();
-	}
+//	public Review getById(int pid) throws InvalidIdException {
+//		Optional<Review> optional = reviewRepository.findById(pid);
+//		if (!optional.isPresent()) {
+//			throw new InvalidIdException("Product ID invalid");
+//		}
+//		return optional.get();
+//	}
 
 	public void deleteReview(Review review) {
 		reviewRepository.delete(review);
@@ -45,6 +45,20 @@ public class ReviewService {
 		// TODO Auto-generated method stub
 		return reviewRepository.findAll();	
 	}
+
+	public Review getReview(int pid) throws InvalidIdException {
+			Optional<Review> optional = reviewRepository.findById(pid);
+			if (!optional.isPresent()) {
+				throw new InvalidIdException("Product ID invalid");
+			}
+			return optional.get();
+		}
+
+	public List<Review> getByProductId(int pid) {
+	
+		return reviewRepository.getByProductId(pid);
+	}
+
 	
 
 }

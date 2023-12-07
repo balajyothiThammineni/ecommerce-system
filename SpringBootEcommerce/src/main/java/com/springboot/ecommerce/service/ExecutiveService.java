@@ -18,14 +18,14 @@ public class ExecutiveService {
 			return executiveRepository.save(executive);
 		}
 
-		public Executive getExecutive(int id) throws InvalidIdException {
-		Optional<Executive> optional = executiveRepository.findById(id);
-		if (!optional.isPresent()) {
-			throw new InvalidIdException("Executive ID invalid");
-		}
-		return optional.get();
+//		public Executive getExecutive(int id) throws InvalidIdException {
+//		Optional<Executive> optional = executiveRepository.findById(id);
+//		if (!optional.isPresent()) {
+//			throw new InvalidIdException("Executive ID invalid");
+//		}
+//		return optional.get();
 
-	}
+	
 
 		public Executive getById(int eid) throws InvalidIdException{
 			Optional<Executive> optional = executiveRepository.findById(eid);
