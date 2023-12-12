@@ -60,7 +60,6 @@ public class ReviewController {
 			Product product= productService.getOne(pid);
 			List<Review> list=reviewService.getByProductId(pid);
 			return ResponseEntity.ok().body(list);
-			
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

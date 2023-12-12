@@ -61,11 +61,13 @@ public class CustomerService {
 	}
 
 
-//	public List<Customer> getCustomerBySeller(int sid) {
-//	
-//		return customerRepository.getCustomerBySeller(sid);
-//	}
-	
+	public List<Customer> getCustomerBySeller(int sid) {
+		
+		return customerRepository.getCustomerBySeller(sid) ;
+	}
+
+
+
 		
 	}
 	

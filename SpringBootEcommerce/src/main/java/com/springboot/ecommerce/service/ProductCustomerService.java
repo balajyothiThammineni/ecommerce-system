@@ -17,8 +17,8 @@ public class ProductCustomerService {
 	@Autowired
 	private ProductCustomerRepository productCustomerRepository;
 	
-	public ProductCustomer insert(ProductCustomer ProductCustomer) {
-		return productCustomerRepository.save(ProductCustomer);
+	public List<ProductCustomer> insert(List<ProductCustomer> ProductCustomer) {
+		return productCustomerRepository.saveAll(ProductCustomer);
 
 	}
 

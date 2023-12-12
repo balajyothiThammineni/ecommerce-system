@@ -102,13 +102,13 @@ public class CustomerController {
 		return ResponseEntity.ok().body(oldCustomer);
 	}
 
+	@GetMapping("/customer/products/{sid}")
+	public ResponseEntity<?> getCustomerBySeller(@PathVariable ("sid") int sid){
+		List<Customer> customers = customerService.getCustomerBySeller(sid);
+		return ResponseEntity.ok().body(customers);
+	}
 
 
-//	@GetMapping("/customer/products/{sid}")
-//	public ResponseEntity<?> getCustomerBySeller(@PathVariable ("sid") int sid){
-//		List<Customer> customers = customerService.getCustomerBySeller(sid);
-//		return ResponseEntity.ok().body(customers);
-//	}
 
  
 

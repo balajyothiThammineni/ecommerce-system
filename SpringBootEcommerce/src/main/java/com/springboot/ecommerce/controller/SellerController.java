@@ -1,7 +1,6 @@
 package com.springboot.ecommerce.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -72,6 +71,7 @@ public class SellerController {
 		return list;
 	}
 
+	
 	@DeleteMapping("/delete/{sid}")
 	public ResponseEntity<?> deleteSeller(@PathVariable("sid") int id) {
 
@@ -85,6 +85,7 @@ public class SellerController {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
+	
 
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> updateSeller(@PathVariable("id") int id, @RequestBody SellerDto newSeller) {

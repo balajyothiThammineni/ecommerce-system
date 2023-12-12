@@ -12,6 +12,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "Product_customer")
 public class ProductCustomer {
@@ -28,6 +30,7 @@ public class ProductCustomer {
 	@Column(name = "date_of_purchase")
 	
 	@CreationTimestamp
+
 	private LocalDateTime dateOfPurchase;
 	
 	private int quantity;

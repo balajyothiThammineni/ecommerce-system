@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.springboot.ecommerce.dto.ProductDto;
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Product;
-import com.springboot.ecommerce.model.Seller;
 import com.springboot.ecommerce.repository.ProductRepository;
 
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -50,8 +51,24 @@ public class ProductService {
 
 
 	public List<Product> getProductsByCategoryId(int cid, Pageable pageable) {
-		 
-		return productRepository.getProductsByCategoryId(cid,pageable);
+	//	List<Product> products= new ArrayList<>();
+		
+		List<Product> product= productRepository.getProductsByCategoryId(cid,pageable);
+		
+//		for (Product product2 : product) {
+//	   Product product3 = new Product();
+//	   byte[] image =null;
+//	   if(product2.getImageData()!=null) {
+//		  image = ImageUtil.decompressImage(product2.getImageData());  
+//	   }
+//	   
+//	   
+//	   product3.setImageData(image);
+//	   products.add(product3);
+//	   
+//		}
+		return product;
+		
 	}
 
 
@@ -76,8 +93,10 @@ public class ProductService {
 		}
 		return optional.get();
 	}
-
+	
+	
 }
+
 
 
 

@@ -10,6 +10,10 @@ public class OrderDto {
 	private int orderId;
 	private double totalPrice;
 	private int quantity;
+	private int pid;
+	private int cid;
+		
+	
 //	@CreationTimestamp
 //	private LocalDateTime dateOfPurchase;
 //	private String orderStatus="ordered";
@@ -46,6 +50,23 @@ public class OrderDto {
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
+
+	public int getCid() {
+		return cid;
+	}
+
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+	
 
 //	public LocalDateTime getDateOfPurchase() {
 //		return dateOfPurchase;

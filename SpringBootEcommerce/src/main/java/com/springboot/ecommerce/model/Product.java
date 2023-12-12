@@ -21,6 +21,9 @@ public class Product {
 	private long price;
 	private int stock;
 	
+    @Column(name = "img", length = 1000)
+    private String imageData;
+	
 	private boolean featured;
 	
 	 @ManyToOne
@@ -92,7 +95,16 @@ public class Product {
 	}
 	public void setFeatured(boolean featured) {
 		this.featured = featured;
+		
 	}
+	public String getImageData() {
+		return imageData;
+	}
+	public void setImageData(String imageData) {
+		this.imageData = imageData;
+	}
+	
+
 	
 	 
 	

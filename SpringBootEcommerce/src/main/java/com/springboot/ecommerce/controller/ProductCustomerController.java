@@ -1,5 +1,6 @@
 package com.springboot.ecommerce.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import com.springboot.ecommerce.service.CustomerService;
 import com.springboot.ecommerce.service.ProductCustomerService;
 import com.springboot.ecommerce.service.ProductService;
 
+
+
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
 public class ProductCustomerController<Order> {
@@ -33,28 +36,36 @@ public class ProductCustomerController<Order> {
 	@Autowired
 	private ProductCustomerService productCustomerService;
 	
-	@PostMapping("/order/{cid}/{pid}")
-	public ResponseEntity<?> orderProducts(@PathVariable("pid") int pid, @PathVariable("cid") int cid,
-			@RequestBody OrderDto orderDto) {
-
-
-			Customer customer = customerService.getCustomer(cid);
-			Product product = productService.getById(pid);
-			double totalPrice = 0;
-				ProductCustomer productCustomer = new ProductCustomer();
-				productCustomer.setCustomer(customer);
-				productCustomer.setProduct(product);
-				productCustomer.setQuantity(orderDto.getQuantity());
-				productCustomer.setAmount(orderDto.getTotalprice());
-				productCustomer.setQuantity(orderDto.getQuantity());
-			
-			   totalPrice = orderDto.getQuantity()*(product.getPrice());
-				productCustomer.setAmount(totalPrice); 
-				
-	            return ResponseEntity.ok().body(productCustomerService.insert(productCustomer));
+	@PostMapping("/order/saveall")
+	public ResponseEntity<?> orderProducts(
+			@RequestBody List<OrderDto> orderDto) {
+		List<ProductCustomer> productCustomers = new ArrayList<ProductCustomer>();
+		for (OrderDto orderDto2 : orderDto) {
+			ProductCustomer productCustomer = getProductCustomer(orderDto2);
+			productCustomers.add(productCustomer);	
+		}
+     return ResponseEntity.ok().body(productCustomerService.insert(productCustomers));
+		
 	}
 	
-	
+	public ProductCustomer getProductCustomer(OrderDto orderDto) {
+		
+		Customer customer = customerService.getCustomer(orderDto.getCid());
+		Product product = productService.getById(orderDto.getPid());
+		double totalPrice = 0;
+			ProductCustomer productCustomer = new ProductCustomer();
+			productCustomer.setCustomer(customer);
+			productCustomer.setProduct(product);
+			productCustomer.setQuantity(orderDto.getQuantity());
+			productCustomer.setAmount(orderDto.getTotalprice());
+			productCustomer.setQuantity(orderDto.getQuantity());
+		
+		   totalPrice = orderDto.getQuantity()*(product.getPrice());
+			productCustomer.setAmount(totalPrice); 
+			 
+			return productCustomer;
+		
+	}
 	
      @DeleteMapping("/order/delete/{id}")
 	public ResponseEntity<?> deleteorder(@PathVariable("id") int id) {
@@ -71,15 +82,11 @@ public class ProductCustomerController<Order> {
      @GetMapping("/orders/{cid}") 
  	public ResponseEntity<?> getOrders(@PathVariable("cid") int cid) {
  		List<ProductCustomer> listOfOrders=null;
- 		try {
- 			 listOfOrders=productCustomerService.getMyOrders(cid);
- 			
- 		} catch (Exception e) {
- 			return new ResponseEntity<>("Customer Invalid",HttpStatus.OK);
- 		}
-       
+			 listOfOrders=productCustomerService.getMyOrders(cid);
        return new ResponseEntity<List<ProductCustomer>>(listOfOrders,HttpStatus.OK);
-  	}
+ 	}
+     
+
      
      @GetMapping("/order/getall")
      public List<Order> getAllOrders(){

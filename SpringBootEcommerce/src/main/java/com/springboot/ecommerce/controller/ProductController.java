@@ -1,18 +1,26 @@
 package com.springboot.ecommerce.controller;
-import org.springframework.data.domain.Pageable;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Category;
 import com.springboot.ecommerce.model.Product;
@@ -20,6 +28,7 @@ import com.springboot.ecommerce.model.Seller;
 import com.springboot.ecommerce.service.CategoryService;
 import com.springboot.ecommerce.service.ProductService;
 import com.springboot.ecommerce.service.SellerService;
+
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
@@ -34,10 +43,26 @@ public class ProductController {
 	private CategoryService categoryService;
 	
 	
-	@PostMapping("/product/add/{sid}/{cid}")
+	@PostMapping(path = "/product/add/{sid}/{cid}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	
 	public ResponseEntity<?> addProduct(@PathVariable("sid") int sid,
 							  @PathVariable("cid") int cid,
-							  @RequestBody Product product) {
+							  @RequestParam("file") MultipartFile file,
+							  @RequestParam ("name")String name,
+							  @RequestParam ("productDescription")String productDescription,
+							  @RequestParam ("colour")String colour,
+							  @RequestParam ("size")String size,
+							  @RequestParam ("price")Long price,
+							  @RequestParam ("stock")int stock) throws IOException {
+		
+		Product product= new Product();
+		
+		   String uploadDir = "D:/fileUpload";
+	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+	        String filePath = uploadDir + "/" + fileName;
+	        File dest = new File(filePath);
+	        file.transferTo(dest);
+	        
 		
 		try {
 		/* Step 1: go to DB and fetch sellerObject by seller id */
@@ -45,8 +70,16 @@ public class ProductController {
 		/* Step 2: go to DB and fetch categoryObject by category id */
 		Category category = categoryService.getByid(cid); 
 		/* Step 3: attach above object to Product object */
+		
+		product.setName(name);
+		product.setProductDescription(productDescription);
+		product.setColour(colour);
+		product.setSize(size);
+		product.setPrice(price);
+		product.setStock(stock);
 		product.setSeller(seller);
 		product.setCategory(category);
+		product.setImageData(fileName);
 		/* Step 4: Save product in DB */
 		product = productService.insert(product);
 		return ResponseEntity.ok().body(product);
@@ -112,7 +145,26 @@ public class ProductController {
 		List<Product> list= productService.searchProductByName(qStr);
 		return list; 
 	}
+	
+	@GetMapping("/download/{id}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable int id) {
+        Product pp = productService.getById(id);
+        if (pp != null) {
+            try {
+                Resource resource = new UrlResource("file:D:/fileUpload/" + pp.getImageData());
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+           
+            
+        }
+	
+        return ResponseEntity.notFound().build();
 
+	}
 }
 
      
