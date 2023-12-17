@@ -1,6 +1,7 @@
 package com.springboot.ecommerce;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.springboot.ecommerce.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -61,5 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		dao.setUserDetailsService(userService);
 
 		return dao;
+	}
+	
+	@Bean
+	public Logger getLogger() {
+		return LoggerFactory.getLogger("Log Records");
 	}
 }

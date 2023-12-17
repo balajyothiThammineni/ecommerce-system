@@ -7,4 +7,6 @@ import com.springboot.ecommerce.model.Executive;
 @Repository
 public interface ExecutiveRepository extends JpaRepository <Executive,Integer> {
 
+	boolean existsByexecutiveEmail(String email);
+
 }

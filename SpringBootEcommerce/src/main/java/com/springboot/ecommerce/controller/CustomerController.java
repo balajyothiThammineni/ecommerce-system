@@ -1,8 +1,11 @@
 package com.springboot.ecommerce.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecommerce.enums.Role;
 import com.springboot.ecommerce.exception.InvalidIdException;
-import com.springboot.ecommerce.model.Address;
 import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.User;
 import com.springboot.ecommerce.service.AddressService;
 import com.springboot.ecommerce.service.CustomerService;
 import com.springboot.ecommerce.service.UserService;
+
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000"})
@@ -38,20 +41,30 @@ public class CustomerController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private Logger logger;
 	
 	@PostMapping("/customer/signup")
-	public Customer signUp(@RequestBody Customer customer) {
+	public ResponseEntity<?> postCustomer(@RequestBody Customer customer) {
+	    // Check if the email already exists in the Customer table
+	    String email = customer.getCustomerEmail();
+	    if (customerService.existsByCustomerEmail(email)) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+	    }
 
-		User user = customer.getUser();
-		String passwordPlain = user.getPassword();
-		String encodedPassword = passwordEncoder.encode(passwordPlain);
-		user.setPassword(encodedPassword);
-		user.setRole(Role.CUSTOMER);
-        Address address = addressService.postAddress(customer.getAddress());
-		customer.setAddress(address);
-		user = userService.insert(user);
-		customer.setUser(user);
-		return customerService.insert(customer);
+	    // If the email doesn't exist, proceed with the signup process
+	    User user = customer.getUser();
+	    String password = user.getPassword();
+	    String encodedpassword = passwordEncoder.encode(password);
+	    user.setPassword(encodedpassword);
+	    user.setRole(Role.CUSTOMER);
+	    user = userService.insert(user);
+	    customer.setUser(user);
+	    logger.info("Customer signed up: {}",customer.getCustomerName());
+	  
+
+	    // Return a success message along with the created customer
+	    return ResponseEntity.status(HttpStatus.OK).body(customer);
 	}
 	
 	
@@ -63,12 +76,16 @@ public class CustomerController {
 		return list;
 	}
 
-	@GetMapping("/customer/getone/{id}")
-	public ResponseEntity<?> getCustomerById(@PathVariable("id") int id) {
+    @GetMapping("/customer/getByUserId/{userId}")
+	public ResponseEntity<?> getCustomerByUserId(@PathVariable("userId") int userId) {
 		try {
-			Customer customer = customerService.getCustomerById(id);
-			return ResponseEntity.ok().body(customer);
-		} catch (InvalidIdException e) {
+			Optional<Customer> customer = customerService.getCustomerByUserId(userId);
+			if(customer.isPresent()){
+				return ResponseEntity.ok().body(customer);
+			}else{
+				return null;
+			}
+		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}

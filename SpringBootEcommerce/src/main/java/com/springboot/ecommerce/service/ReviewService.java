@@ -59,6 +59,10 @@ public class ReviewService {
 		return reviewRepository.getByProductId(pid);
 	}
 
+	public List<Review> getAllReviewsByCustomerId(int customerId){
+		return reviewRepository.getReviewsByCustomerCustomerId(customerId);
+	}
+
 	
 
 }

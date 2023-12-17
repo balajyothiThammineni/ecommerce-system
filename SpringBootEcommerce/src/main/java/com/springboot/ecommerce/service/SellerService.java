@@ -62,6 +62,20 @@ public class SellerService {
 		return optional.get();
 	}
 
+	public Seller getSellerByUserId(int userId) throws InvalidIdException{
+		Optional<Seller>optional = sellerRepository.getSellerByUserId(userId);
+		if(!optional.isPresent())
+			throw new InvalidIdException("sid Invalid");
+		return optional.get();
+	}
+
+	public boolean existsByEmail(String email) {
+		// TODO Auto-generated method stub
+		return sellerRepository.existsByEmail(email);
+	}
+
+
+	
 
 
 }

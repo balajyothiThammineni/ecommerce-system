@@ -86,5 +86,9 @@ public class ReviewController {
     public List<Review> getAllReviews(){
 		return reviewService.getAll();
 	}
+	@GetMapping("/review/getall/{customerId}")
+	public List<Review> getAllReviewsByCustomer(@PathVariable int customerId){
+		return reviewService.getAllReviewsByCustomerId(customerId);
+	}
 }
 

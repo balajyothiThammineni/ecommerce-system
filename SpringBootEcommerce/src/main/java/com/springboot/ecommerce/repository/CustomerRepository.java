@@ -1,6 +1,7 @@
 package com.springboot.ecommerce.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,11 +19,37 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer>{
 	        "AND p.seller_seller_id = :sellerId", nativeQuery = true)
 	List<Customer> getCustomerBySeller(@Param("sellerId") int sellerId);
 
+	
+
+	boolean existsByCustomerEmail(String email);
+
+
+
+	Optional<Customer> getCustomerByUserId(int customerId);
+
+
+
+	
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+	
+
 
 	
 	
-//    @Query("SELECT DISTINCT p.customer FROM Purchase p  + JOIN p.product pr + JOIN pr.seller s + WHERE s.sellerId = :sellerId" )
-//	List<Customer> getCustomerBySeller(int sid);
+
     
 
 

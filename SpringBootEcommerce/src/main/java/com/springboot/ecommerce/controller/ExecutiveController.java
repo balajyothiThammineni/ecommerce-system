@@ -1,6 +1,8 @@
 package com.springboot.ecommerce.controller;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,35 +29,41 @@ public class ExecutiveController {
 	private UserService userService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+	@Autowired
+	private Logger logger;
 	
 	
 	@PostMapping("/executive/signup")
-	public Executive addExecucutive(@RequestBody Executive executive) {
-		 
-		User user = executive.getUser();
-		String passwordPlain =user.getPassword();
-		String encodedPassword =passwordEncoder.encode(passwordPlain);
-		user.setPassword(encodedPassword);
-		user.setRole(Role.EXECUTIVE);
-		user=userService.insert(user);
-		executive.setUser(user);
-		return executiveService.insert(executive);
-		}	
+	public ResponseEntity<?> addExecutive(@RequestBody Executive executive) {
+	    // Check if the email already exists in the Executive table
+	    String email = executive.getExecutiveEmail();
+	    if (executiveService.existsByexecutiveEmail(email)) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+	    }
+
+	    User user = executive.getUser();
+	    String password = user.getPassword();
+	    String encodedPassword = passwordEncoder.encode(password);
+	    user.setPassword(encodedPassword);
+	    user.setRole(Role.EXECUTIVE);
+	    user = userService.insert(user);
+	    executive.setUser(user);
+
+	    
+
+	    // Insert the executive into the database
+	    Executive insertedExecutive = executiveService.insert(executive);
+
+	    logger.info("Executive signed up: {}", insertedExecutive.getExecutiveName());
+
+	    // Return a success message along with the created executive
+	    return ResponseEntity.status(HttpStatus.OK).body(insertedExecutive);
+	}
+
 	
 	
 	
-//    @GetMapping("/executive/login/{id}")
-//	public ResponseEntity<?> getExecutive(@PathVariable("id") int id) {
-//
-//		try {
-//			Executive executive = executiveService.getExecutive(id);
-//			return ResponseEntity.ok().body(executive);
-//		} catch (InvalidIdException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//
-//	}
+
     
 	
 	

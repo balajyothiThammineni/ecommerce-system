@@ -14,13 +14,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.springboot.ecommerce.dto.NewProductDTO;
 import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Category;
 import com.springboot.ecommerce.model.Product;
@@ -43,27 +46,14 @@ public class ProductController {
 	private CategoryService categoryService;
 	
 	
-	@PostMapping(path = "/product/add/{sid}/{cid}",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+@PostMapping(path = "/product/add/{sid}/{cid}", consumes = {MediaType.APPLICATION_JSON_VALUE})
 	
-	public ResponseEntity<?> addProduct(@PathVariable("sid") int sid,
-							  @PathVariable("cid") int cid,
-							  @RequestParam("file") MultipartFile file,
-							  @RequestParam ("name")String name,
-							  @RequestParam ("productDescription")String productDescription,
-							  @RequestParam ("colour")String colour,
-							  @RequestParam ("size")String size,
-							  @RequestParam ("price")Long price,
-							  @RequestParam ("stock")int stock) throws IOException {
+	public ResponseEntity<?> addProduct(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+							 
+										@RequestBody NewProductDTO productDTO
+										) throws IOException {
 		
-		Product product= new Product();
-		
-		   String uploadDir = "D:/fileUpload";
-	        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-	        String filePath = uploadDir + "/" + fileName;
-	        File dest = new File(filePath);
-	        file.transferTo(dest);
-	        
-		
+		Product product= new Product();		
 		try {
 		/* Step 1: go to DB and fetch sellerObject by seller id */
 		Seller seller = sellerService.getById(sid);
@@ -71,15 +61,15 @@ public class ProductController {
 		Category category = categoryService.getByid(cid); 
 		/* Step 3: attach above object to Product object */
 		
-		product.setName(name);
-		product.setProductDescription(productDescription);
-		product.setColour(colour);
-		product.setSize(size);
-		product.setPrice(price);
-		product.setStock(stock);
+		product.setName(productDTO.getName());
+		product.setProductDescription(productDTO.getProductDescription());
+		product.setColour(productDTO.getColour());
+		product.setSize(productDTO.getSize());
+		product.setPrice(Long.parseLong(productDTO.getPrice()));
+		product.setStock(Integer.parseInt(productDTO.getStock()));
 		product.setSeller(seller);
 		product.setCategory(category);
-		product.setImageData(fileName);
+		product.setImageData(productDTO.getImage());
 		/* Step 4: Save product in DB */
 		product = productService.insert(product);
 		return ResponseEntity.ok().body(product);
@@ -136,7 +126,22 @@ public class ProductController {
 	@GetMapping("/featured/all")
 	public List<Product> getFeauteredProducts(){
 		return productService.getAll();
+		
 	}
+	
+	 
+	 @DeleteMapping("/product/delete/{productId}/{sellerId}")
+	 public ResponseEntity<?>deleteSellerProduct(@PathVariable("productId") int productId, @PathVariable("sellerId") int sellerId){
+		 try {
+			 productService.deleteProductByProductIdAndSellerID(productId,sellerId);
+			 
+		 }catch (Exception e){
+			 return ResponseEntity.badRequest().body(e.getMessage());
+			 
+		 }
+		 return ResponseEntity.ok().body("order deleted sucessfully");
+	 }
+	 
 
 	
 
@@ -165,7 +170,30 @@ public class ProductController {
         return ResponseEntity.notFound().build();
 
 	}
+	
+	 @DeleteMapping("/product/delete/{pid}")
+	    public ResponseEntity<?> deleteProduct(@PathVariable("pid") int id) {
+	        try {
+	            // Validate id
+	            Product product = productService.getProductById(id);
+	            
+	            // Delete the product
+	            productService.deleteProduct(product);
+	            
+	            return ResponseEntity.ok().body("Product deleted successfully");
+	        } catch (InvalidIdException e) {
+	            return ResponseEntity.badRequest().body(e.getMessage());
+	        }
+	    }
+	 
+	
+	
+
+
+
+	
 }
+
 
      
 

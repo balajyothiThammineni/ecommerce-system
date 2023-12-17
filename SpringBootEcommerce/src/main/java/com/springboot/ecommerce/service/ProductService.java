@@ -93,7 +93,37 @@ public class ProductService {
 		}
 		return optional.get();
 	}
+
+
+
+	public Product getProductById(int id) throws InvalidIdException {
+        Optional<Product> optional = productRepository.findById(id);
+        if (!optional.isPresent()) {
+            throw new InvalidIdException("Product ID is invalid");
+        }
+        return optional.get();
+    }
+
+
+
+	public void deleteProduct(Product product) {
+		productRepository.delete(product);
 	
+		
+	}
+
+
+
+	public boolean deleteProductByProductIdAndSellerID(int productId, int sellerId){
+		int isSuccess = productRepository.deleteProductByProductIdAndAndSeller_SellerId(productId, sellerId);
+		System.out.println("Is Product Deleted Successfully " + isSuccess);
+		if(isSuccess == 0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
 	
 }
 

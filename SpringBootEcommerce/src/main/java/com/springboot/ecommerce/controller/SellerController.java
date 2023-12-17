@@ -1,7 +1,11 @@
 package com.springboot.ecommerce.controller;
 
 import java.util.List;
+
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.springboot.ecommerce.dto.SellerDto;
 import com.springboot.ecommerce.enums.Role;
 import com.springboot.ecommerce.exception.InvalidIdException;
@@ -37,21 +42,40 @@ public class SellerController {
 	private UserService userService;
 	@Autowired
 	private AddressService addressService;
+	@Autowired
+	private Logger logger;
+	
 
 	@PostMapping("/signup")
-	public Seller addSeller(@RequestBody Seller seller) {
+	public ResponseEntity<?> addSeller(@RequestBody Seller seller) {
+	    // Check if the email already exists in the Seller table
+	    String email = seller.getEmail();
+	    if (sellerService.existsByEmail(email)) {
+	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+	    }
 
-		User user = seller.getUser();
-		String passwordPlain = user.getPassword();
-		String encodedPassword = passwordEncoder.encode(passwordPlain);
-		user.setPassword(encodedPassword);
-		user.setRole(Role.SELLER);
-		user = userService.insert(user);
-		seller.setUser(user);
-		Address address = addressService.postAddress(seller.getAddress());
-		seller.setAddress(address);
-		return sellerService.insert(seller);
+
+	    User user = seller.getUser();
+	    String password = user.getPassword();
+	    String encodedPassword = passwordEncoder.encode(password);
+	    user.setPassword(encodedPassword);
+	    user.setRole(Role.SELLER);
+	    user = userService.insert(user);
+	    seller.setUser(user);
+
+	    // Assuming you have an address associated with the seller
+	    Address address = addressService.postAddress(seller.getAddress());
+	    seller.setAddress(address);
+
+	    // Insert the seller into the database
+	    Seller insertedSeller = sellerService.insert(seller);
+	    
+	    logger.info("Seller signed up: {}", insertedSeller.getSellerName());
+
+	    // Return a success message along with the created seller
+	    return ResponseEntity.status(HttpStatus.OK).body(insertedSeller);
 	}
+
 
 	@GetMapping("/getone/{sid}")
 	public ResponseEntity<?> getExecutive(@PathVariable("sid") int id) {
@@ -104,6 +128,18 @@ public class SellerController {
 			oldSeller = sellerService.postSeller(oldSeller);
 			return ResponseEntity.ok().body(oldSeller);
 
+		} catch (InvalidIdException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
+	}
+	
+	@GetMapping("/findByUserId/{userId}")
+	public ResponseEntity<?> getSellerByUserId(@PathVariable("userId") int userId) {
+
+		try {
+			Seller seller = sellerService.getSellerByUserId(userId);
+			return ResponseEntity.ok().body(seller);
 		} catch (InvalidIdException e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

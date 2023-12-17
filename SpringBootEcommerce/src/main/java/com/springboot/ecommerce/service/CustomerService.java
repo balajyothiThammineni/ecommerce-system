@@ -67,6 +67,26 @@ public class CustomerService {
 	}
 
 
+	
+
+
+	public boolean existsByCustomerEmail(String email) {
+		// TODO Auto-generated method stub
+		return customerRepository.existsByCustomerEmail(email);
+	}
+
+
+	public Customer getOne(int customerId) {
+		// TODO Auto-generated method stub
+		return customerRepository.getOne(customerId);
+	}
+
+
+	public Optional<Customer> getCustomerByUserId(int customerId){
+		return customerRepository.getCustomerByUserId(customerId);
+	}
+
+
 
 		
 	}
