@@ -185,6 +185,11 @@ public class ProductController {
 	            return ResponseEntity.badRequest().body(e.getMessage());
 	        }
 	    }
+	 @GetMapping("/products/{productId}")
+		public Product getProductById(@PathVariable("productId") String productId){
+			return productService.getProducts(Integer.parseInt(productId));
+		}
+		
 	 
 	
 	

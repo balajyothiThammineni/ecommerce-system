@@ -65,14 +65,14 @@ public class ReviewController {
 		}
 	}
 		
-//	@DeleteMapping("/review/delete/{id}")
-//	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) throws InvalidIdException {
-//
-//		Review review = reviewService.getById(id);
-//
-//		reviewService.deleteReview(review);
-//		return ResponseEntity.ok().body("review deleted successfully");
-//	}
+	@DeleteMapping("/review/delete/{id}")
+	public ResponseEntity<?> deleteCustomer(@PathVariable("id") int id) throws InvalidIdException {
+
+		Review review = reviewService.getById(id);
+
+		reviewService.deleteReview(review);
+		return ResponseEntity.ok().body("review deleted successfully");
+	}
 	
 	@GetMapping("/review/getall/{page}/{size}")
 	public Page<Review> getAllProducts(
@@ -90,5 +90,9 @@ public class ReviewController {
 	public List<Review> getAllReviewsByCustomer(@PathVariable int customerId){
 		return reviewService.getAllReviewsByCustomerId(customerId);
 	}
+	
+	
+	
+	
 }
 

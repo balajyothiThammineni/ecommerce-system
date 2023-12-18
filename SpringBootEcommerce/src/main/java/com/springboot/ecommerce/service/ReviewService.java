@@ -24,13 +24,13 @@ public class ReviewService {
 		
 	}
 
-//	public Review getById(int pid) throws InvalidIdException {
-//		Optional<Review> optional = reviewRepository.findById(pid);
-//		if (!optional.isPresent()) {
-//			throw new InvalidIdException("Product ID invalid");
-//		}
-//		return optional.get();
-//	}
+	public Review getById(int pid) throws InvalidIdException {
+		Optional<Review> optional = reviewRepository.findById(pid);
+		if (!optional.isPresent()) {
+			throw new InvalidIdException("Product ID invalid");
+		}
+		return optional.get();
+	}
 
 	public void deleteReview(Review review) {
 		reviewRepository.delete(review);
@@ -62,6 +62,10 @@ public class ReviewService {
 	public List<Review> getAllReviewsByCustomerId(int customerId){
 		return reviewRepository.getReviewsByCustomerCustomerId(customerId);
 	}
+
+	
+
+	
 
 	
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecommerce.enums.Role;
 import com.springboot.ecommerce.exception.InvalidIdException;
+import com.springboot.ecommerce.model.Address;
 import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.User;
 import com.springboot.ecommerce.service.AddressService;
@@ -45,27 +46,42 @@ public class CustomerController {
 	private Logger logger;
 	
 	@PostMapping("/customer/signup")
-	public ResponseEntity<?> postCustomer(@RequestBody Customer customer) {
-	    // Check if the email already exists in the Customer table
-	    String email = customer.getCustomerEmail();
-	    if (customerService.existsByCustomerEmail(email)) {
-	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
-	    }
+	public Customer signUp(@RequestBody Customer customer) {
 
-	    // If the email doesn't exist, proceed with the signup process
-	    User user = customer.getUser();
-	    String password = user.getPassword();
-	    String encodedpassword = passwordEncoder.encode(password);
-	    user.setPassword(encodedpassword);
-	    user.setRole(Role.CUSTOMER);
-	    user = userService.insert(user);
-	    customer.setUser(user);
-	    logger.info("Customer signed up: {}",customer.getCustomerName());
-	  
-
-	    // Return a success message along with the created customer
-	    return ResponseEntity.status(HttpStatus.OK).body(customer);
+		User user = customer.getUser();
+		String passwordPlain = user.getPassword();
+		String encodedPassword = passwordEncoder.encode(passwordPlain);
+		user.setPassword(encodedPassword);
+		user.setRole(Role.CUSTOMER);
+        Address address = addressService.postAddress(customer.getAddress());
+		customer.setAddress(address);
+		user = userService.insert(user);
+		customer.setUser(user);
+		return customerService.insert(customer);
 	}
+	
+//	@PostMapping("/customer/signup")
+//	public ResponseEntity<?> postCustomer(@RequestBody Customer customer) {
+//	    // Check if the email already exists in the Customer table
+//	    String email = customer.getCustomerEmail();
+//	    if (customerService.existsByCustomerEmail(email)) {
+//	        return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists.");
+//	    }
+//
+//	    // If the email doesn't exist, proceed with the signup process
+//	    User user = customer.getUser();
+//	    String password = user.getPassword();
+//	    String encodedpassword = passwordEncoder.encode(password);
+//	    user.setPassword(encodedpassword);
+//	    user.setRole(Role.CUSTOMER);
+//	    user = userService.insert(user);
+//	    customer.setUser(user);
+//	    logger.info("Customer signed up: {}",customer.getCustomerName());
+//	  
+//
+//	    // Return a success message along with the created customer
+//	    return ResponseEntity.status(HttpStatus.OK).body(customer);
+//	}
 	
 	
 

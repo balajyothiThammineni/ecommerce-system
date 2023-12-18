@@ -18,6 +18,10 @@ public class CustomerService {
 	
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	public Customer saveCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
 
 	
 	
@@ -32,13 +36,13 @@ public class CustomerService {
 	}
 	
 	
-	public Customer getCustomerById(int id) throws InvalidIdException{
-		java.util.Optional<Customer> optional = customerRepository.findById(id);
-		if(!optional.isPresent())
-			throw new InvalidIdException("Customer Id Invalid");
-		Customer customer = optional.get();
-		return customer;
-	}
+	public Customer getCustomerById(int id) throws InvalidIdException {
+        Optional<Customer> optional = customerRepository.findById(id);
+        if (optional.isEmpty()) {
+            throw new InvalidIdException("Customer Id Invalid");
+        }
+        return optional.get();
+    }
 	
 	
 	public void deleteCustomer(Customer customer) {
@@ -85,6 +89,9 @@ public class CustomerService {
 	public Optional<Customer> getCustomerByUserId(int customerId){
 		return customerRepository.getCustomerByUserId(customerId);
 	}
+
+
+	
 
 
 

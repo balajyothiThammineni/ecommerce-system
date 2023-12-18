@@ -39,6 +39,7 @@ public class ProductCustomerController<Order> {
 	@PostMapping("/order/saveall")
 	public ResponseEntity<?> orderProducts(
 			@RequestBody List<OrderDto> orderDto) {
+		System.out.println(orderDto);
 		List<ProductCustomer> productCustomers = new ArrayList<ProductCustomer>();
 		for (OrderDto orderDto2 : orderDto) {
 			ProductCustomer productCustomer = getProductCustomer(orderDto2);

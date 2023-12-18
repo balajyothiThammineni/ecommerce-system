@@ -16,7 +16,7 @@ public interface ProductCustomerRepository extends JpaRepository<ProductCustomer
 //   		+ "WHERE pc.customer_customer_Id=46", nativeQuery = true)
 //   List<ProductCustomer> getMyOrders(@Param("cid")int cid);
 	
-	 @Query("SELECT pc FROM ProductCustomer pc WHERE pc.customer.id = :customerId")
+	 @Query("SELECT pc FROM ProductCustomer pc WHERE pc.customer.customerId = :customerId")
 	    List<ProductCustomer>getMyOrders(@Param("customerId") int customerId);
 	}
      
