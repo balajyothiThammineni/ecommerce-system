@@ -73,4 +73,9 @@ public class NewProductDTO {
     public void setStock(String stock) {
         this.stock = stock;
     }
+
+	public String getFeatured() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

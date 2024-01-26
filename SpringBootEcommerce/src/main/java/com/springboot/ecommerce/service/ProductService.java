@@ -124,6 +124,14 @@ public class ProductService {
 		}
 	}
 
+
+
+	public List<Product> getFeaturedProducts() {
+	    // Assuming there is a method like findAllByFeaturedTrue in your repository
+	    return productRepository.findAllByFeaturedTrue();
+	}
+
+
 	
 }
 

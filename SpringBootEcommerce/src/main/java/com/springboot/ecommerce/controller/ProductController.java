@@ -11,6 +11,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,39 +47,37 @@ public class ProductController {
 	private CategoryService categoryService;
 	
 	
-@PostMapping(path = "/product/add/{sid}/{cid}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+
+	    @PostMapping(path = "/product/add/{sid}/{cid}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	    public ResponseEntity<?> addProduct(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
+	                                        @RequestBody NewProductDTO productDTO) throws IOException {
+	        Product product = new Product();
+	        try {
+	            Seller seller = sellerService.getById(sid);
+	            Category category = categoryService.getByid(cid);
+
+	            product.setName(productDTO.getName());
+	            product.setProductDescription(productDTO.getProductDescription());
+	            product.setColour(productDTO.getColour());
+	            product.setSize(productDTO.getSize());
+	            product.setPrice(Long.parseLong(productDTO.getPrice()));
+	            product.setStock(Integer.parseInt(productDTO.getStock()));
+	            product.setSeller(seller);
+	            product.setCategory(category);
+	            product.setImageData(productDTO.getImage());
+	            
+	            // Set the featured property
+	            product.setFeatured(productDTO.isFeatured());
+
+	            product = productService.insert(product);
+	            return ResponseEntity.ok().body(product);
+	        } catch (InvalidIdException e) {
+	            return ResponseEntity.badRequest().body(e.getMessage());
+	        }
+	    }
+
 	
-	public ResponseEntity<?> addProduct(@PathVariable("sid") int sid, @PathVariable("cid") int cid,
-							 
-										@RequestBody NewProductDTO productDTO
-										) throws IOException {
-		
-		Product product= new Product();		
-		try {
-		/* Step 1: go to DB and fetch sellerObject by seller id */
-		Seller seller = sellerService.getById(sid);
-		/* Step 2: go to DB and fetch categoryObject by category id */
-		Category category = categoryService.getByid(cid); 
-		/* Step 3: attach above object to Product object */
-		
-		product.setName(productDTO.getName());
-		product.setProductDescription(productDTO.getProductDescription());
-		product.setColour(productDTO.getColour());
-		product.setSize(productDTO.getSize());
-		product.setPrice(Long.parseLong(productDTO.getPrice()));
-		product.setStock(Integer.parseInt(productDTO.getStock()));
-		product.setSeller(seller);
-		product.setCategory(category);
-		product.setImageData(productDTO.getImage());
-		/* Step 4: Save product in DB */
-		product = productService.insert(product);
-		return ResponseEntity.ok().body(product);
-		}
-		catch(InvalidIdException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-	} 
-	
+
 	 
 	@GetMapping("/category/all/{cid}")
 	public ResponseEntity<?> getProductsByCategory(@PathVariable("cid") int cid ,
@@ -123,11 +122,11 @@ public class ProductController {
 		return productService.getAll();
 	}
 	
-	@GetMapping("/featured/all")
-	public List<Product> getFeauteredProducts(){
-		return productService.getAll();
-		
-	}
+//	@GetMapping("/featured/all")
+//	public List<Product> getFeauteredProducts(){
+//		return productService.getAll();
+//		
+//	}
 	
 	 
 	 @DeleteMapping("/product/delete/{productId}/{sellerId}")
@@ -190,7 +189,16 @@ public class ProductController {
 			return productService.getProducts(Integer.parseInt(productId));
 		}
 		
-	 
+	 @GetMapping("/featured/all")
+	 public ResponseEntity<List<Product>> getFeaturedProducts() {
+	     try {
+	         List<Product> featuredProducts = productService.getFeaturedProducts();
+	         return ResponseEntity.ok().body(featuredProducts);
+	     } catch (Exception e) {
+	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	     }
+	 }
+
 	
 	
 

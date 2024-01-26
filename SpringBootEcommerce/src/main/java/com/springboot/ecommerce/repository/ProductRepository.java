@@ -53,6 +53,9 @@ public interface ProductRepository extends JpaRepository<Product,Integer>{
 	int deleteProductByProductIdAndAndSeller_SellerId(int productId, int sellerId);
 
 
+	List<Product> findAllByFeaturedTrue();
+
+
 
 	
 
