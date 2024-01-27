@@ -21,7 +21,7 @@ public class Product {
 	private long price;
 	private int stock;
 	
-    @Column(name = "img", length = 1000)
+    @Column(name = "img", length = 1000000000)
     private String imageData;
 	
 	private boolean featured;

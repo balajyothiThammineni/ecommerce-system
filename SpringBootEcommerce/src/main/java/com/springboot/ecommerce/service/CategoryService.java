@@ -64,4 +64,11 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
+
+//	public Category getCategoryByName(String name) {
+//	    return categoryRepository.findByCategoryName(name)
+//	            .orElseThrow(() -> new InvalidNameException("Category not found with name: " + name));
+//	}
+
+
 } 

@@ -41,8 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 						"/product/getall/{page}/{size}", "/review/getone/{pid}", "/customer/delete/{id}",
 						"/customer/update/{id}", "/seller/signup", "/seller/view/all", "/seller/delete/{id}",
 						"/review/delete/{id}", "/review/getall/{page}/{size}", "/product/getall", "/review/getall",
-						"/order/{cid}/{pid}", "/order/delete/{id}", "/category/add", "/category/delete/{id}",
-						"/orders/{cid}", "/orders/{pid}", "/order/getall", "/seller/getone/{id}","/hello").permitAll()
+						"/order/{cid}/{pid}", "/order/delete/{id}", "/category/add", "/category/delete/{id}","/category/getByName/{name}","/orders/{cid}", "/orders/{pid}", "/order/getall", "/seller/getone/{id}","/hello").permitAll()
 				 .antMatchers(HttpMethod.POST,"/auth/login").authenticated()
 				 .anyRequest().permitAll()
 				 .and().httpBasic()
