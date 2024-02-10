@@ -46,7 +46,7 @@ public class CustomerController {
 	private Logger logger;
 	
 	@PostMapping("/customer/signup")
-	public Customer signUp(@RequestBody Customer customer) {
+	public ResponseEntity<?> signUp(@RequestBody Customer customer) {
 
 		User user = customer.getUser();
 		String passwordPlain = user.getPassword();
@@ -57,8 +57,15 @@ public class CustomerController {
 		customer.setAddress(address);
 		user = userService.insert(user);
 		customer.setUser(user);
-		return customerService.insert(customer);
-	}
+		
+		int uid=customer.getCustomerId();
+		try {
+			userService.sendEmailOnRegistration(uid);
+		} catch (InvalidIdException e) {
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().body(customer);
+		}
 	
 //	@PostMapping("/customer/signup")
 //	public ResponseEntity<?> postCustomer(@RequestBody Customer customer) {

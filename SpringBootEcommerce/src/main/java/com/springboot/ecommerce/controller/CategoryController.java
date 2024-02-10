@@ -1,8 +1,8 @@
 package com.springboot.ecommerce.controller;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecommerce.dto.CategoryDto;
 import com.springboot.ecommerce.exception.InvalidIdException;
-import com.springboot.ecommerce.exception.InvalidNameException;
 import com.springboot.ecommerce.model.Category;
 import com.springboot.ecommerce.service.CategoryService;
 @RestController

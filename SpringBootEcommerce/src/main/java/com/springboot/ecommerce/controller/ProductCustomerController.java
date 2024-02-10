@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.ecommerce.dto.OrderDto;
+import com.springboot.ecommerce.exception.InvalidIdException;
 import com.springboot.ecommerce.model.Customer;
 import com.springboot.ecommerce.model.Product;
 import com.springboot.ecommerce.model.ProductCustomer;
 import com.springboot.ecommerce.service.CustomerService;
 import com.springboot.ecommerce.service.ProductCustomerService;
 import com.springboot.ecommerce.service.ProductService;
+import com.springboot.ecommerce.service.UserService;
 
 
 
@@ -35,19 +37,33 @@ public class ProductCustomerController<Order> {
 	private ProductService productService;
 	@Autowired
 	private ProductCustomerService productCustomerService;
+	@Autowired
+	private UserService userService;
 	
 	@PostMapping("/order/saveall")
-	public ResponseEntity<?> orderProducts(
-			@RequestBody List<OrderDto> orderDto) {
-		System.out.println(orderDto);
-		List<ProductCustomer> productCustomers = new ArrayList<ProductCustomer>();
-		for (OrderDto orderDto2 : orderDto) {
-			ProductCustomer productCustomer = getProductCustomer(orderDto2);
-			productCustomers.add(productCustomer);	
-		}
-     return ResponseEntity.ok().body(productCustomerService.insert(productCustomers));
-		
+	public ResponseEntity<?> orderProducts(@RequestBody List<OrderDto> orderDtoList) {
+	    System.out.println(orderDtoList);
+	    
+	    List<ProductCustomer> productCustomers = new ArrayList<>();
+	    
+	    for (OrderDto orderDto : orderDtoList) {
+	        ProductCustomer productCustomer = getProductCustomer(orderDto);
+	        productCustomers.add(productCustomer);
+	    }
+	    
+	    // Assuming orderDtoList contains at least one order
+	    int customerId = orderDtoList.get(0).getCid();
+	    
+	    try {
+	        userService.sendEmailOnOrderPlaced(customerId);
+	    } catch (InvalidIdException e) {
+	        e.printStackTrace();
+	        return ResponseEntity.badRequest().body("Error sending email: " + e.getMessage());
+	    }
+	    
+	    return ResponseEntity.ok().body(productCustomerService.insert(productCustomers));
 	}
+
 	
 	public ProductCustomer getProductCustomer(OrderDto orderDto) {
 		
